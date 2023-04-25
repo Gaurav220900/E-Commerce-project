@@ -26,6 +26,7 @@ router.post(
     failureFlash: true,
   }),
   function (req, res) {
+    req.flash("success", "Welcome");
     res.redirect("/products");
   }
 );

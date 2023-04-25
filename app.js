@@ -20,12 +20,19 @@ const sessionConfig = {
   },
 };
 
+app.use(session(sessionConfig));
+app.use(flash());
+
+app.use((req, res, next) => {
+  res.locals.success = req.flash("success");
+  res.locals.error = req.flash("error");
+  res.locals.currentUser = req.user;
+  next();
+});
+
 passport.use(new loaclStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
-
-app.use(session(sessionConfig));
-app.use(flash());
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -33,6 +40,7 @@ app.use(passport.session());
 const productRoutes = require("./routes/product");
 const reviewRoutes = require("./routes/reviewRoutes");
 const authRoutes = require("./routes/authRoutes");
+app.use(express.static(path.join(__dirname, "public")));
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
@@ -44,6 +52,10 @@ app.use(reviewRoutes);
 app.use(authRoutes);
 app.use(methodOverride("_method"));
 
+app.get("/", (req, res) => {
+  res.render("home");
+});
+
 mongoose
   .connect("mongodb://127.0.0.1:27017/E-commerce-website")
   .then(() => {
@@ -52,12 +64,6 @@ mongoose
   .catch((err) => {
     console.log("err");
   });
-
-app.use((req, res, next) => {
-  res.locals.success = req.flash("success");
-  res.locals.error = req.flash("error");
-  next();
-});
 
 app.listen(3000, () => {
   console.log("server listening at port 3000");
