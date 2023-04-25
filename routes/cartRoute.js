@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const { isLoggedIn } = require("../middleware");
-const User = require("../models/User");
-const Product = require("../models/Product");
+const User = require("../model/user");
+const Product = require("../model/product");
 
 router.get("/products/user/cart", isLoggedIn, async (req, res) => {
   try {

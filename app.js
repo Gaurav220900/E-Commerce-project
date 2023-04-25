@@ -21,6 +21,7 @@ const sessionConfig = {
 };
 
 app.use(session(sessionConfig));
+app.use(passport.authenticate("session"));
 app.use(flash());
 
 app.use((req, res, next) => {
@@ -40,6 +41,7 @@ app.use(passport.session());
 const productRoutes = require("./routes/product");
 const reviewRoutes = require("./routes/reviewRoutes");
 const authRoutes = require("./routes/authRoutes");
+const cartRoutes = require("./routes/cartRoute");
 app.use(express.static(path.join(__dirname, "public")));
 
 app.set("view engine", "ejs");
@@ -50,6 +52,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(productRoutes);
 app.use(reviewRoutes);
 app.use(authRoutes);
+app.use(cartRoutes);
 app.use(methodOverride("_method"));
 
 app.get("/", (req, res) => {
