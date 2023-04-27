@@ -8,10 +8,16 @@ router.get("/register", (req, res) => {
 });
 
 router.post("/register", async (req, res) => {
-  const { username, email, password, userType } = req.body;
-  const user = new User({ username, email, userType });
-  await User.register(user, password);
-  res.redirect("/login");
+  try {
+    const { username, password, email, userType } = req.body;
+    const user = new User({ username, email, userType });
+    await User.register(user, password);
+    req.flash("success", "Registered Successfully");
+    res.redirect("/login");
+  } catch (e) {
+    req.flash("error", e.message);
+    res.redirect("/register");
+  }
 });
 
 router.get("/login", (req, res) => {
@@ -26,7 +32,7 @@ router.post(
     failureFlash: true,
   }),
   function (req, res) {
-    req.flash("success", "Welcome");
+    req.flash("success", `Welcome back again ${req.user.username}`);
     res.redirect("/products");
   }
 );

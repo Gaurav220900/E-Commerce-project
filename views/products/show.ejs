@@ -11,11 +11,17 @@
                 <a href="#" class="btn btn-sm btn-primary">Buy Now</a>
                 <form action="/products/<%=product._id%>/cart" method="POST" class="d-inline">
                     <button type="submit" class="btn btn-sm btn-success">Add To Cart</button>
-                </form>                
+                </form>   
                 <a href="/products/<%=product._id%>/edit" class="btn btn-sm btn-secondary">Edit</a>
-                <form action="/products/<%=product._id%>?_method=DELETE" method="POST">
-                <button class="btn btn-sm btn-danger">Delete</button>
-                </form>
+                    <form action="/products/<%=product._id%>?_method=DELETE" method="post" class="d-inline">
+                        <button class="btn btn-sm btn-danger">Delete</button>
+                    </form>             
+                <!-- <% if(currentUser && product.author && product.author.equals(currentUser._id)) {%> 
+                    <a href="/products/<%=product._id%>/edit" class="btn btn-sm btn-secondary">Edit</a>
+                    <form action="/products/<%=product._id%>?_method=DELETE" method="post" class="d-inline">
+                        <button class="btn btn-sm btn-danger">Delete</button>
+                    </form>
+                <% } %>  -->
             </div>
             </div>
         </div>
